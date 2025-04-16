@@ -37,7 +37,7 @@ let heatmap = {};
 let hasSaved = false;
 
 
-let timer = 5 * 1000; // 5s
+let timer = 10 * 1000; // 10s
 let startTime;
 let recording = true;
 let showVideo = true;
@@ -58,7 +58,7 @@ let parts;
 
 function startVideo() {
   instructionsPage.style.display = 'none';
-  canvasContainer.style.display = 'block';
+  canvasContainer.style.display = 'flex';
 
   video = createCapture(VIDEO);
   video.size(640, 480);

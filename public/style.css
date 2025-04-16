@@ -6,6 +6,15 @@ canvas {
     box-sizing: border-box;
 }
 
+canvas {
+    top: 50%;
+    left: 50%;
+}
+
+body {
+    height: 200%;
+}
+
 #instructions {
     position: absolute;
     top: 50%;
@@ -16,6 +25,12 @@ canvas {
 
 #canvas-wrapper {
     display: none;
+
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Additional styles for your instruction page */
