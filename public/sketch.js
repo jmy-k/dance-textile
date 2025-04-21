@@ -29,6 +29,8 @@
 //   RIGHT_FOOT: 23
 // }
 
+let prompts = ["Embody your favorite color", "Move like a secret you’ve never told", "Recall a night you didn’t want to end", "You are holding time in your hands - try to keep it from slipping away", "Show how memory sits in your body, whether heavy, light, or shifting"]
+
 let bodySegmentation;
 let video;
 let segmentation;
@@ -44,46 +46,32 @@ let showVideo = true;
 
 let gridSize = 5; // circle size
 
-let startButton = document.getElementById('startButton');
+// let startButton = document.getElementById('startButton');
 let instructionsPage = document.getElementById('instructions');
 let canvasContainer = document.getElementById('canvas-wrapper');
+let prompt = document.getElementById('prompt');
 
-
-startButton.addEventListener('click', startVideo)
+document.addEventListener('keyup', event => {
+  if (event.code === 'Space') {
+    startVideo();
+  }
+})
 
 let options = {
   maskType: "parts",
 };
 let parts;
 
-function startVideo() {
-  instructionsPage.style.display = 'none';
-  canvasContainer.style.display = 'flex';
-
-  video = createCapture(VIDEO);
-  video.size(640, 480);
-  video.hide();
-  video.parent('canvas-wrapper');
-
-  video.elt.onloadeddata = () => {
-    console.log("Video is ready!");
-
-    bodySegmentation = ml5.bodySegmentation("BodyPix", options, () => {
-      console.log("BodySegmentation model loaded");
-
-      // only start detecting after both video and model are ready
-      bodySegmentation.detectStart(video.elt, gotResults);
-      startTime = millis();
-    });
-  };
-}
-
-
 
 function setup() {
-  const canvas = createCanvas(640, 480);
+  const canvas = createCanvas(1280, 960);
   canvas.parent(canvasContainer);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+  prompt.innerHTML = randomPrompt;
+});
 
 function draw() {
   if (video && showVideo) {
@@ -107,6 +95,28 @@ function draw() {
     saveHeatmapToServer();
     hasSaved = true;
   }
+}
+
+function startVideo() {
+  instructionsPage.style.display = 'none';
+  canvasContainer.style.display = 'flex';
+
+  video = createCapture(VIDEO);
+  video.size(1280, 960);
+  video.hide();
+  video.parent('canvas-wrapper');
+
+  video.elt.onloadeddata = () => {
+    console.log("Video is ready!");
+
+    bodySegmentation = ml5.bodySegmentation("BodyPix", options, () => {
+      console.log("BodySegmentation model loaded");
+
+      // only start detecting after both video and model are ready
+      bodySegmentation.detectStart(video.elt, gotResults);
+      startTime = millis();
+    });
+  };
 }
 
 function drawSegmentOverlay() {

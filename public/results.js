@@ -10,10 +10,10 @@ function setup() {
 }
 
 function draw() {
-    background(217, 217, 217);
+    background(0);
 
     // Draw light grid
-    fill(246, 246, 246, 40);
+    fill(5, 5, 5, 40);
     noStroke();
     for (let i = 0; i < width; i += gridSize) {
         for (let j = 0; j < height; j += gridSize) {
@@ -25,7 +25,7 @@ function draw() {
     for (let key in blendedHeatmap) {
         let [x, y] = key.split(",").map(Number);
         let intensity = blendedHeatmap[key];
-        fill(0, 66, 111, map(intensity, 1, maxIntensity, 50, 255));
+        fill(193, 18, 31, map(intensity, 1, maxIntensity, 50, 255));
         noStroke();
         circle(x, y, gridSize);
     }

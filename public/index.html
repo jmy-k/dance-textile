@@ -10,6 +10,15 @@
   <!-- Load p5.js and ml5.js -->
   <script src="./p5.min.js"></script>
   <script src="./ml5.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Didact+Gothic&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 
 </head>
@@ -17,17 +26,15 @@
 <body>
   <!-- Instruction Page -->
   <div id="instructions">
-    <h1>create your dance textile</h1>
-    <p>make some movement in response to your prompt.</p>
-    <p>when you're ready, press start to record.</p>
-    <button class="button" id="startButton">start</button>
+    <!-- <div id="title">Body as Textile</div> -->
+    <div>
+      <div id="subtext">Motion as Memory</div>
+      <div id="prompt"></div>
+    </div>
+    <!-- <button class="button" id="startButton">start</button> -->
   </div>
-
-
   <div id="canvas-wrapper" style="display: none;"></div>
-
   <script src="sketch.js"></script>
-
 </body>
 
 </html>
