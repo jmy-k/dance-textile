@@ -29,7 +29,7 @@
 //   RIGHT_FOOT: 23
 // }
 
-let prompts = ["Embody your favorite color", "Move like a secret you’ve never told", "Recall a night you didn’t want to end", "You are holding time in your hands - try to keep it from slipping away", "Show how memory sits in your body, whether heavy, light, or shifting"]
+let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting"]
 
 let bodySegmentation;
 let video;
@@ -64,7 +64,7 @@ let parts;
 
 
 function setup() {
-  const canvas = createCanvas(1280, 960);
+  const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent(canvasContainer);
 }
 
@@ -102,7 +102,7 @@ function startVideo() {
   canvasContainer.style.display = 'flex';
 
   video = createCapture(VIDEO);
-  video.size(1280, 960);
+  video.size(1280, windowHeight);
   video.hide();
   video.parent('canvas-wrapper');
 
@@ -153,8 +153,6 @@ function drawHeatmap() {
     noStroke();
     circle(x, y, gridSize);
   }
-
-  saveHeatmapToServer()
 }
 
 
