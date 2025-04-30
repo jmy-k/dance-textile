@@ -1,35 +1,5 @@
-// record body movements over 15s and display heatmap style of the circles at the end
-
-
-// possible body parts
-// {
-//   LEFT_FACE: 0
-//   RIGHT_FACE: 1
-//   LEFT_UPPER_ARM_FRONT: 2
-//   LEFT_UPPER_ARM_BACK: 3
-//   RIGHT_UPPER_ARM_FRONT: 4
-//   RIGHT_UPPER_ARM_BACK: 5
-//   LEFT_LOWER_ARM_FRONT: 6
-//   LEFT_LOWER_ARM_BACK: 7
-//   RIGHT_LOWER_ARM_FRONT: 8
-//   RIGHT_LOWER_ARM_BACK: 9
-//   LEFT_HAND: 10
-//   RIGHT_HAND: 11
-//   TORSO_FRONT: 12
-//   TORSO_BACK: 13
-//   LEFT_UPPER_LEG_FRONT: 14
-//   LEFT_UPPER_LEG_BACK: 15
-//   RIGHT_UPPER_LEG_FRONT: 16
-//   RIGHT_UPPER_LEG_BACK: 17
-//   LEFT_LOWER_LEG_FRONT: 18
-//   LEFT_LOWER_LEG_BACK: 19
-//   RIGHT_LOWER_LEG_FRONT: 20
-//   RIGHT_LOWER_LEG_BACK: 21
-//   LEFT_FOOT: 22
-//   RIGHT_FOOT: 23
-// }
-
-let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting"]
+// sketch.js - Fullscreen solution
+let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting", "think of a moment you've never forgotten and let it shape your movement", "choose a memory in your hands and let them act it out"];
 
 let bodySegmentation;
 let video;
@@ -38,7 +8,6 @@ let segmentation;
 let heatmap = {};
 let hasSaved = false;
 
-
 let timer = 10 * 1000; // 10s
 let startTime;
 let recording = true;
@@ -46,7 +15,6 @@ let showVideo = true;
 
 let gridSize = 5; // circle size
 
-// let startButton = document.getElementById('startButton');
 let instructionsPage = document.getElementById('instructions');
 let canvasContainer = document.getElementById('canvas-wrapper');
 let prompt = document.getElementById('prompt');
@@ -55,27 +23,32 @@ document.addEventListener('keyup', event => {
   if (event.code === 'Space') {
     startVideo();
   }
-})
+});
 
 let options = {
   maskType: "parts",
 };
-let parts;
 
-
+// This function runs once when the sketch starts
 function setup() {
-  const canvas = createCanvas(windowWidth, windowHeight);
-  canvas.parent(canvasContainer);
+  // Don't create canvas yet - we'll create it in startVideo()
+  // This prevents issues with canvas dimensions before video starts
 }
 
+// Display a random prompt when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
   prompt.innerHTML = randomPrompt;
 });
 
+// Main drawing loop
 function draw() {
   if (video && showVideo) {
-    image(video, 0, 0);
+    push();
+    translate(width, 0);
+    scale(-1, 1);
+    image(video, 0, 0, width, height);
+    pop();
   }
 
   if (video && segmentation && recording) {
@@ -85,7 +58,7 @@ function draw() {
   if (startTime && millis() - startTime > timer && recording) {
     recording = false;
     showVideo = false;
-    console.log("5 seconds is over");
+    console.log("Timer ended");
   }
 
   if (!recording && !hasSaved && video) {
@@ -97,22 +70,35 @@ function draw() {
   }
 }
 
+// Start video capture and show canvas
 function startVideo() {
+  // Hide instructions
   instructionsPage.style.display = 'none';
-  canvasContainer.style.display = 'flex';
 
+  // Show canvas container
+  canvasContainer.style.display = 'block';
+
+  // Calculate the dimensions needed for a full-screen rotated canvas
+  // For a 90° rotation, we swap width and height
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  // Create canvas with dimensions that will fill the screen when rotated
+  // We'll create the canvas inside startVideo to ensure we have the correct dimensions
+  const canvas = createCanvas(screenHeight, screenWidth);
+  canvas.parent(canvasContainer);
+
+  // Create the video capture with the same dimensions
   video = createCapture(VIDEO);
-  video.size(1280, windowHeight);
+  video.size(screenHeight, screenWidth);
   video.hide();
-  video.parent('canvas-wrapper');
 
+  // When video is ready, start body segmentation
   video.elt.onloadeddata = () => {
     console.log("Video is ready!");
 
     bodySegmentation = ml5.bodySegmentation("BodyPix", options, () => {
       console.log("BodySegmentation model loaded");
-
-      // only start detecting after both video and model are ready
       bodySegmentation.detectStart(video.elt, gotResults);
       startTime = millis();
     });
@@ -121,17 +107,22 @@ function startVideo() {
 
 function drawSegmentOverlay() {
   let parts = bodySegmentation.getPartsId();
-  for (let x = 0; x < video.width; x += gridSize) {
-    for (let y = 0; y < video.height; y += gridSize) {
-      let segment = segmentation.data[y * video.width + x];
-      if (segment == parts.RIGHT_FACE || segment == parts.RIGHT_UPPER_ARM_FRONT || segment == parts.RIGHT_UPPER_ARM_BACK || segment == parts.LEFT_HAND || segment == parts.RIGHT_HAND || segment == parts.LEFT_UPPER_LEG_FRONT || segment == parts.LEFT_UPPER_LEG_BACK || segment == parts.LEFT_UPPER_ARM_FRONT || segment == parts.LEFT_UPPER_ARM_BACK || segment == parts.LEFT_FOOT || segment == parts.RIGHT_FOOT) {
+  for (let x = 0; x < width; x += gridSize) {
+    for (let y = 0; y < height; y += gridSize) {
+      // Mirror x coordinate
+      let mirroredX = width - x - 1;
+      let segment = segmentation.data[y * width + mirroredX];
 
-        // change circle color here!
+      if (segment == parts.RIGHT_FACE || segment == parts.RIGHT_UPPER_ARM_FRONT ||
+        segment == parts.RIGHT_UPPER_ARM_BACK || segment == parts.LEFT_HAND ||
+        segment == parts.RIGHT_HAND || segment == parts.LEFT_UPPER_LEG_FRONT ||
+        segment == parts.LEFT_UPPER_LEG_BACK || segment == parts.LEFT_UPPER_ARM_FRONT ||
+        segment == parts.LEFT_UPPER_ARM_BACK || segment == parts.LEFT_FOOT ||
+        segment == parts.RIGHT_FOOT) {
         fill(0, 66, 111);
         noStroke();
         circle(x, y, gridSize);
 
-        // store heatmap circles
         let key = `${x},${y}`;
         heatmap[key] = (heatmap[key] || 0) + 1;
       }
@@ -139,11 +130,13 @@ function drawSegmentOverlay() {
   }
 }
 
-
 function drawHeatmap() {
-  background(217, 217, 217); // change background color here!
+  background(217, 217, 217); // Background color
 
-  let maxIntensity = max(Object.values(heatmap));
+  let maxIntensity = 0;
+  Object.values(heatmap).forEach(val => {
+    if (val > maxIntensity) maxIntensity = val;
+  });
 
   for (let key in heatmap) {
     let [x, y] = key.split(",").map(Number);
@@ -155,11 +148,10 @@ function drawHeatmap() {
   }
 }
 
-
 function drawCircles() {
   fill(246, 246, 246, 40);
-  for (let i = 0; i < video.width; i += gridSize) {
-    for (let j = 0; j < video.height; j += gridSize) {
+  for (let i = 0; i < width; i += gridSize) {
+    for (let j = 0; j < height; j += gridSize) {
       circle(i, j, gridSize);
     }
   }
@@ -184,4 +176,12 @@ function saveHeatmapToServer() {
     .catch(err => {
       console.error('Error saving:', err);
     });
+}
+
+// Handle window resizing
+function windowResized() {
+  resizeCanvas(windowHeight, windowWidth);
+  if (video) {
+    video.size(windowHeight, windowWidth);
+  }
 }
