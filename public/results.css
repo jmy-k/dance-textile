@@ -2,26 +2,25 @@
     font-family: 'Kingthings Xstitch';
     src: url('./src/Kingthings Xstitch.ttf');
 }
-
 @font-face {
     font-family: 'Home Sweet Home';
     src: url('./src/Home\ Sweet\ Home.otf');
 }
 
-body {
+body{
     width: 100vw;
     height: 100vh;
     background-color: rgb(217, 217, 217);
     overflow: hidden;
 }
 
-main {
+main{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#canvas-wrapper {
+#canvas-wrapper{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -33,8 +32,8 @@ main {
     height: 100%;
 }
 
-#defaultCanvas0 {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
+#defaultCanvas0{
+  position:absolute;
+  width:100vw;
+  height:100vh;
 }

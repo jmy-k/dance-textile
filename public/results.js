@@ -13,8 +13,8 @@ function setup() {
     canvasContainer.style.display = 'flex';
 }
 function draw() {
-    background(217, 217, 217);
-    // Draw light grid
+  background(217, 217, 217);
+  // Draw light grid
     fill(246, 246, 246, 40);
     noStroke();
     for (let i = 0; i < width; i += gridSize) {
@@ -40,15 +40,15 @@ function draw() {
     console.log("mask");
 }
 function fetchHeatmaps() {
-    console.log("Fetching heatmaps directly...");
-    loadJSON("/heatmaps",
+    console.log("fetching textiles directly...");
+    loadJSON("/heatmaps", 
         (data) => {
-            console.log("Received heatmaps:", data.length);
+            console.log("received textiles:", data.length);
             heatmaps = data;
             blendHeatmaps();
         },
         (error) => {
-            console.error("Error loading heatmaps:", error);
+            console.error("error loading textiles:", error);
         }
     );
 }
@@ -62,14 +62,14 @@ function blendHeatmaps() {
         }
     }
 
-    console.log("Blended heatmap has", Object.keys(blendedHeatmap).length, "points");
-    console.log("Max intensity:", maxIntensity);
+    console.log("blended textile has", Object.keys(blendedHeatmap).length, "points");
+    console.log("max intensity:", maxIntensity);
 }
 function mask() {
     circle(width / 2, height / 2, 800);
 }
 function preload() {
-    loop = loadImage("src/loop2.png", img => {
+    loop = loadImage("src/loop.png", img => {
         img.resize(1020, 1020);
     });
 }
