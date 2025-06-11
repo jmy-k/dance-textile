@@ -1,5 +1,5 @@
 // sketch.js - Fullscreen solution
-let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting", "think of a moment you've never forgotten and let it shape your movement", "choose a memory in your hands and let them act it out"];
+let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting", "think of a moment you've never forgotten and let it shape your movement","choose a memory in your hands and let them act it out"];
 
 let bodySegmentation;
 let video;
@@ -29,25 +29,21 @@ let options = {
   maskType: "parts",
 };
 
-// This function runs once when the sketch starts
 function setup() {
-  // Don't create canvas yet - we'll create it in startVideo()
-  // This prevents issues with canvas dimensions before video starts
 }
 
-// Display a random prompt when the page loads
+// display a random prompt when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
   prompt.innerHTML = randomPrompt;
 });
 
-// Main drawing loop
 function draw() {
   if (video && showVideo) {
     push();
     translate(width, 0);
     scale(-1, 1);
-    image(video, 0, 0, width, height);
+    image(video, 0, 0);
     pop();
   }
 
@@ -74,29 +70,29 @@ function draw() {
 function startVideo() {
   // Hide instructions
   instructionsPage.style.display = 'none';
-
+  
   // Show canvas container
   canvasContainer.style.display = 'block';
-
+  
   // Calculate the dimensions needed for a full-screen rotated canvas
   // For a 90° rotation, we swap width and height
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-
+  
   // Create canvas with dimensions that will fill the screen when rotated
   // We'll create the canvas inside startVideo to ensure we have the correct dimensions
-  const canvas = createCanvas(screenHeight, screenWidth);
+  const canvas = createCanvas(screenWidth,screenHeight);
   canvas.parent(canvasContainer);
-
+  
   // Create the video capture with the same dimensions
   video = createCapture(VIDEO);
-  video.size(screenHeight, screenWidth);
+  video.size(screenWidth, screenHeight);
   video.hide();
-
+  
   // When video is ready, start body segmentation
   video.elt.onloadeddata = () => {
     console.log("Video is ready!");
-
+    
     bodySegmentation = ml5.bodySegmentation("BodyPix", options, () => {
       console.log("BodySegmentation model loaded");
       bodySegmentation.detectStart(video.elt, gotResults);
@@ -113,12 +109,12 @@ function drawSegmentOverlay() {
       let mirroredX = width - x - 1;
       let segment = segmentation.data[y * width + mirroredX];
 
-      if (segment == parts.RIGHT_FACE || segment == parts.RIGHT_UPPER_ARM_FRONT ||
-        segment == parts.RIGHT_UPPER_ARM_BACK || segment == parts.LEFT_HAND ||
-        segment == parts.RIGHT_HAND || segment == parts.LEFT_UPPER_LEG_FRONT ||
-        segment == parts.LEFT_UPPER_LEG_BACK || segment == parts.LEFT_UPPER_ARM_FRONT ||
-        segment == parts.LEFT_UPPER_ARM_BACK || segment == parts.LEFT_FOOT ||
-        segment == parts.RIGHT_FOOT) {
+      if (segment == parts.RIGHT_FACE || segment == parts.RIGHT_UPPER_ARM_FRONT || 
+          segment == parts.RIGHT_UPPER_ARM_BACK || segment == parts.LEFT_HAND || 
+          segment == parts.RIGHT_HAND || segment == parts.LEFT_UPPER_LEG_FRONT || 
+          segment == parts.LEFT_UPPER_LEG_BACK || segment == parts.LEFT_UPPER_ARM_FRONT || 
+          segment == parts.LEFT_UPPER_ARM_BACK || segment == parts.LEFT_FOOT || 
+          segment == parts.RIGHT_FOOT) {
         fill(0, 66, 111);
         noStroke();
         circle(x, y, gridSize);
@@ -171,7 +167,7 @@ function saveHeatmapToServer() {
   })
     .then(res => res.json())
     .then(data => {
-      console.log('Saved heatmap as:', data.filename);
+      console.log('saved textile as:', data.filename);
     })
     .catch(err => {
       console.error('Error saving:', err);

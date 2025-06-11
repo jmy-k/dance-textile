@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "Kingthings Xstitch";
+  src: url("./src/Kingthings Xstitch.ttf");
+}
+@font-face {
+  font-family: "Home Sweet Home";
+  src: url("./src/Home\ Sweet\ Home.otf");
+}
+
+*,
+body {
+  box-sizing: border-box;
+  font-family: "Kingthings Xstitch", sans-serif;
+}
+
+body {
+  background-image: url("./src/fabric.jpg");
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  
+  display: flex;
+  flex-direction: column;
+  align-items:space-between;
+  gap: 32px;
+}
+
+button {
+  padding: 0.5em 1em;
+  background: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  width:fit-content;
+}
+
+#title{
+  
+}
+
+#heatmapList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+/*   height: 100%; */
+  padding: 2%;
+}
+
+#heatmapList div {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+
+  text-align: center;
+}
+
+#heatmapList a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+#heatmapList a:hover {
+  color: #0077cc;
+}
