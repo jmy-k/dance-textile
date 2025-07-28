@@ -2,6 +2,7 @@
     font-family: 'Kingthings Xstitch';
     src: url('./src/Kingthings Xstitch.ttf');
 }
+
 @font-face {
     font-family: 'Home Sweet Home';
     src: url('./src/Home\ Sweet\ Home.otf');
@@ -15,7 +16,8 @@ body {
     font-family: "Bona Nova SC", sans-serif;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -24,6 +26,30 @@ html, body {
 body {
     background-image: url("./src/fabric.jpg");
     background-size: cover;
+}
+
+#navbar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 16px;
+    pointer-events: auto;
+}
+
+#navbar a {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    pointer-events: auto;
+}
+
+#navbar a:hover {
+    background: rgba(255, 255, 255, 1);
+    color: #888;
 }
 
 #title {
@@ -41,6 +67,11 @@ body {
     font-family: 'Kingthings Xstitch', sans-serif;
 }
 
+#interact {
+    padding: 16px;
+    opacity: 0.8;
+}
+
 #instructions {
     display: flex;
     flex-direction: column;
@@ -50,6 +81,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    user-select: none;
     text-align: center;
     gap: 32px;
     width: 80%;
@@ -64,13 +96,18 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    pointer-events: none;
+}
+
+#canvas-wrapper.active {
+    pointer-events: auto;
 }
 
 canvas {
     position: absolute;
     top: 0;
     left: 0;
-
+    pointer-events: auto;
 }
 
 /* Additional styles for your instruction page */
