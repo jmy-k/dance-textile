@@ -2,6 +2,7 @@
   font-family: "Kingthings Xstitch";
   src: url("./src/Kingthings Xstitch.ttf");
 }
+
 @font-face {
   font-family: "Home Sweet Home";
   src: url("./src/Home\ Sweet\ Home.otf");
@@ -18,11 +19,13 @@ body {
   background-size: cover;
   width: 100vw;
   height: 100vh;
-  
+
   display: flex;
   flex-direction: column;
-  align-items:space-between;
+  align-items: space-between;
   gap: 32px;
+
+  overflow: hidden;
 }
 
 button {
@@ -31,18 +34,20 @@ button {
   color: black;
   border: none;
   cursor: pointer;
-  width:fit-content;
+  width: fit-content;
 }
 
-#title{
-  
+#title {
+  font-family: 'Home Sweet Home', sans-serif;
+  font-size: 4rem;
+  color: rgb(0, 166, 211, 60);
 }
 
 #heatmapList {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-/*   height: 100%; */
+  /*   height: 100%; */
   padding: 2%;
 }
 
