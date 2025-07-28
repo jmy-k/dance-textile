@@ -1,5 +1,4 @@
-// sketch.js - Fullscreen solution
-let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting", "think of a moment you've never forgotten and let it shape your movement","choose a memory in your hands and let them act it out"];
+let prompts = ["embody your favorite color", "move like a secret you've never told", "recall a night you didn't want to end", "you are holding time in your hands - try to keep it from slipping away", "show how memory sits in your body, whether heavy, light, or shifting", "think of a moment you've never forgotten and let it shape your movement", "choose a memory in your hands and let them act it out"];
 
 let bodySegmentation;
 let video;
@@ -32,7 +31,7 @@ let options = {
 function setup() {
 }
 
-// display a random prompt when the page loads
+// display random prompt when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
   prompt.innerHTML = randomPrompt;
@@ -66,33 +65,27 @@ function draw() {
   }
 }
 
-// Start video capture and show canvas
+// video and show canvas
 function startVideo() {
-  // Hide instructions
   instructionsPage.style.display = 'none';
-  
-  // Show canvas container
   canvasContainer.style.display = 'block';
-  
-  // Calculate the dimensions needed for a full-screen rotated canvas
-  // For a 90° rotation, we swap width and height
+
+  // dimensions needed for fullscreen rotated canvas
+  // 90 rotation,  swap width and height
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-  
-  // Create canvas with dimensions that will fill the screen when rotated
-  // We'll create the canvas inside startVideo to ensure we have the correct dimensions
-  const canvas = createCanvas(screenWidth,screenHeight);
+
+  const canvas = createCanvas(screenWidth, screenHeight);
   canvas.parent(canvasContainer);
-  
-  // Create the video capture with the same dimensions
+
   video = createCapture(VIDEO);
   video.size(screenWidth, screenHeight);
   video.hide();
-  
+
   // When video is ready, start body segmentation
   video.elt.onloadeddata = () => {
     console.log("Video is ready!");
-    
+
     bodySegmentation = ml5.bodySegmentation("BodyPix", options, () => {
       console.log("BodySegmentation model loaded");
       bodySegmentation.detectStart(video.elt, gotResults);
@@ -105,16 +98,15 @@ function drawSegmentOverlay() {
   let parts = bodySegmentation.getPartsId();
   for (let x = 0; x < width; x += gridSize) {
     for (let y = 0; y < height; y += gridSize) {
-      // Mirror x coordinate
       let mirroredX = width - x - 1;
       let segment = segmentation.data[y * width + mirroredX];
 
-      if (segment == parts.RIGHT_FACE || segment == parts.RIGHT_UPPER_ARM_FRONT || 
-          segment == parts.RIGHT_UPPER_ARM_BACK || segment == parts.LEFT_HAND || 
-          segment == parts.RIGHT_HAND || segment == parts.LEFT_UPPER_LEG_FRONT || 
-          segment == parts.LEFT_UPPER_LEG_BACK || segment == parts.LEFT_UPPER_ARM_FRONT || 
-          segment == parts.LEFT_UPPER_ARM_BACK || segment == parts.LEFT_FOOT || 
-          segment == parts.RIGHT_FOOT) {
+      if (segment == parts.RIGHT_FACE || segment == parts.RIGHT_UPPER_ARM_FRONT ||
+        segment == parts.RIGHT_UPPER_ARM_BACK || segment == parts.LEFT_HAND ||
+        segment == parts.RIGHT_HAND || segment == parts.LEFT_UPPER_LEG_FRONT ||
+        segment == parts.LEFT_UPPER_LEG_BACK || segment == parts.LEFT_UPPER_ARM_FRONT ||
+        segment == parts.LEFT_UPPER_ARM_BACK || segment == parts.LEFT_FOOT ||
+        segment == parts.RIGHT_FOOT) {
         fill(0, 66, 111);
         noStroke();
         circle(x, y, gridSize);
@@ -127,7 +119,7 @@ function drawSegmentOverlay() {
 }
 
 function drawHeatmap() {
-  background(217, 217, 217); // Background color
+  background(217, 217, 217);
 
   let maxIntensity = 0;
   Object.values(heatmap).forEach(val => {
@@ -168,13 +160,37 @@ function saveHeatmapToServer() {
     .then(res => res.json())
     .then(data => {
       console.log('saved textile as:', data.filename);
+
+      // link to navbar for the newly created heatmap
+      if (data.success && data.filename) {
+        addHeatmapLinkToNavbar(data.filename);
+      }
     })
     .catch(err => {
       console.error('Error saving:', err);
     });
 }
 
-// Handle window resizing
+function addHeatmapLinkToNavbar(filename) {
+  const navbar = document.getElementById('navbar');
+
+  // remove existing "your textile" link
+  const existingLink = navbar.querySelector('.your-textile-link');
+  if (existingLink) {
+    existingLink.remove();
+  }
+
+  const link = document.createElement('a');
+  link.href = `./view-textile.html?file=${filename}`;
+  link.textContent = 'your textile';
+  link.target = '_blank';
+  link.className = 'your-textile-link';
+
+  // add the link to the navbar
+  navbar.insertBefore(link, navbar.firstChild);
+}
+
+// window resizing
 function windowResized() {
   resizeCanvas(windowHeight, windowWidth);
   if (video) {
