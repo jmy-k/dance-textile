@@ -47,8 +47,6 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  /*   height: 100%; */
-  padding: 2%;
 }
 
 #heatmapList div {
