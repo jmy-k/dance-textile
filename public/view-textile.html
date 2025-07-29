@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dance textile</title>
 
-    <!-- Load p5.js and ml5.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
-    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>your textile</title>
+  <link rel="icon" type="image/x-icon" href="/src/patch.png">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="view-textile.css" />
-  </head>
 
-  <body>
+  <!-- Load p5.js and ml5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="view-textile.css" />
+</head>
+
+<body>
   <div id="loadingMessage" class="loading">loading textile data...</div>
   <div id="errorMessage" class="error" style="display: none;"></div>
   <div id="canvasContainer"></div>
-  
+
   <div class="options">
     <div class="option-group">
       <label for="bgColor">background:</label>
@@ -34,13 +35,14 @@
       <input type="color" id="dotColor" value="#00426f">
     </div>
   </div>
-  
+
   <div class="controls">
     <button id="saveButton">save image</button>
-    <button class="back-button" id="backButton">back to gallery</button>
+    <button class="back-button" id="backButton">gallery</button>
   </div>
 
-    <script src="./view-textile.js">
-    </script>
-  </body>
+  <script src="./view-textile.js">
+  </script>
+</body>
+
 </html>

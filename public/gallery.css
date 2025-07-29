@@ -8,11 +8,6 @@
   src: url("./src/Home\ Sweet\ Home.otf");
 }
 
-*,
-body {
-  box-sizing: border-box;
-  font-family: "Kingthings Xstitch", sans-serif;
-}
 
 body {
   background-image: url("./src/fabric.jpg");
@@ -22,10 +17,11 @@ body {
 
   display: flex;
   flex-direction: column;
-  align-items: space-between;
   gap: 32px;
 
   overflow: hidden;
+  font-family: "Kingthings Xstitch", sans-serif;
+
 }
 
 button {
@@ -37,16 +33,43 @@ button {
   width: fit-content;
 }
 
+#navbar {
+  font-family: "Bona Nova SC", sans-serif;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+#navbar a {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  pointer-events: auto;
+}
+
+#navbar a:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #888;
+}
+
 #title {
   font-family: 'Home Sweet Home', sans-serif;
   font-size: 4rem;
   color: rgb(0, 166, 211, 60);
+  padding-left: 16px;
 }
 
 #heatmapList {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  padding: 16px;
 }
 
 #heatmapList div {
