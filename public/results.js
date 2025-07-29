@@ -4,6 +4,7 @@ let heatmaps = [];
 let blendedHeatmap = {};
 let gridSize = 5;
 let maxIntensity = 0;
+
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
     // Get heatmaps immediately and then every 5 seconds
@@ -12,9 +13,10 @@ function setup() {
     canvas.parent(canvasContainer);
     canvasContainer.style.display = 'flex';
 }
+
 function draw() {
-  background(217, 217, 217);
-  // Draw light grid
+    background(217, 217, 217);
+    // Draw light grid
     fill(246, 246, 246, 40);
     noStroke();
     for (let i = 0; i < width; i += gridSize) {
@@ -37,21 +39,24 @@ function draw() {
     pop();
 
     clip(mask);
-    console.log("mask");
 }
+
 function fetchHeatmaps() {
     console.log("fetching textiles directly...");
-    loadJSON("/heatmaps", 
+    loadJSON("/heatmaps",
         (data) => {
             console.log("received textiles:", data.length);
             heatmaps = data;
             blendHeatmaps();
+            updateTextileCounter();
         },
         (error) => {
             console.error("error loading textiles:", error);
+            updateTextileCounter();
         }
     );
 }
+
 function blendHeatmaps() {
     blendedHeatmap = {};
     maxIntensity = 0;
@@ -65,9 +70,27 @@ function blendHeatmaps() {
     console.log("blended textile has", Object.keys(blendedHeatmap).length, "points");
     console.log("max intensity:", maxIntensity);
 }
+
+function updateTextileCounter() {
+    let counterElement = document.getElementById('textile-counter');
+    if (!counterElement) {
+        // Create the DOM element if it doesn't exist
+        counterElement = document.createElement('div');
+        counterElement.id = 'textile-counter';
+        // counterElement.style.cssText = `
+
+        // `;
+        document.body.appendChild(counterElement);
+    }
+
+    let countText = heatmaps.length === 1 ? `${heatmaps.length} movement woven` : `${heatmaps.length} movements woven`;
+    counterElement.textContent = countText;
+}
+
 function mask() {
     circle(width / 2, height / 2, 800);
 }
+
 function preload() {
     loop = loadImage("src/loop.png", img => {
         img.resize(1020, 1020);
