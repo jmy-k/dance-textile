@@ -1,5 +1,7 @@
 // MongoDB implementation for server.js
 
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -12,8 +14,7 @@ app.use(bodyParser.json({ limit: "50mb" })); // Increased limit for large heatma
 app.use(express.static("public"));
 
 // Direct MongoDB connection
-const mongoURI =
-  "mongodb+srv://jmy-k:y%25_E5H8i2gHgQGj@bodyastextile.ycdb6kv.mongodb.net/?retryWrites=true&w=majority&appName=bodyastextile";
+const mongoURI = process.env.MONGODB_URI;
 
 mongoose
   .connect(mongoURI, {
