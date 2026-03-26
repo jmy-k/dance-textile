@@ -23,22 +23,25 @@
 <body>
   <div id="loadingMessage" class="loading">loading textile data...</div>
   <div id="errorMessage" class="error" style="display: none;"></div>
-  <div id="canvasContainer"></div>
+  <div id="mainRow">
+    <div id="canvasContainer"></div>
+    <div id="UIcontainer">
+      <div class="options">
+        <div class="option-group">
+          <label for="bgColor">background:</label>
+          <input type="color" id="bgColor" value="#d9d9d9">
+        </div>
+        <div class="option-group">
+          <label for="dotColor">textile color:</label>
+          <input type="color" id="dotColor" value="#00426f">
+        </div>
+      </div>
 
-  <div class="options">
-    <div class="option-group">
-      <label for="bgColor">background:</label>
-      <input type="color" id="bgColor" value="#d9d9d9">
+      <div class="controls">
+        <button id="saveButton">save image</button>
+        <button class="back-button" id="backButton">gallery</button>
+      </div>
     </div>
-    <div class="option-group">
-      <label for="dotColor">textile color:</label>
-      <input type="color" id="dotColor" value="#00426f">
-    </div>
-  </div>
-
-  <div class="controls">
-    <button id="saveButton">save image</button>
-    <button class="back-button" id="backButton">gallery</button>
   </div>
 
   <script src="./view-textile.js">

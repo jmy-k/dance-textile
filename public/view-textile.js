@@ -17,6 +17,9 @@ let canvas = null;
 let originalDataWidth = 0;
 let originalDataHeight = 0;
 let scaleRatio = 1;
+let dataMinX = 0;
+let dataMinY = 0;
+const dataPadding = 20;
 
 // Setup UI controls
 const bgColorPicker = document.getElementById('bgColor');
@@ -128,26 +131,26 @@ new p5(function(p) {
       if (y < minY) minY = y;
     }
     
-    // Add some padding
-    const padding = 20;
-    originalDataWidth = maxX - minX + (2 * padding);
-    originalDataHeight = maxY - minY + (2 * padding);
+    dataMinX = minX;
+    dataMinY = minY;
+    originalDataWidth = maxX - minX + (2 * dataPadding);
+    originalDataHeight = maxY - minY + (2 * dataPadding);
   }
   
   // Resize canvas to fit window while maintaining aspect ratio
   function resizeCanvasToFitWindow() {
-    const containerWidth = Math.min(window.innerWidth - 40, 1200); // Maximum width is window width - padding
-    
-    // Calculate the scale based on container width
-    scaleRatio = containerWidth / originalDataWidth;
-    
+    const maxHeight = 640;
+    const maxWidth = 1000;
+
+    // Scale to fit within both max dimensions, preserving aspect ratio
+    const scaleByHeight = maxHeight / originalDataHeight;
+    const scaleByWidth = maxWidth / originalDataWidth;
+    scaleRatio = Math.min(scaleByHeight, scaleByWidth);
+
     // Calculate new dimensions
-    canvasWidth = containerWidth;
     canvasHeight = originalDataHeight * scaleRatio;
-    
-    // Make sure the canvas isn't too small
-    canvasHeight = Math.max(canvasHeight, 300);
-    
+    canvasWidth = originalDataWidth * scaleRatio;
+
     // Resize the canvas
     p.resizeCanvas(canvasWidth, canvasHeight);
     
@@ -170,9 +173,9 @@ new p5(function(p) {
       let [x, y] = key.split(",").map(Number);
       let intensity = heatmap[key];
       
-      // Scale coordinates to fit canvas
-      const scaledX = x * scaleRatio;
-      const scaledY = y * scaleRatio;
+      // Scale coordinates to fit canvas, offset by data origin + padding
+      const scaledX = (x - dataMinX + dataPadding) * scaleRatio;
+      const scaledY = (y - dataMinY + dataPadding) * scaleRatio;
       
       // Scale dot size based on canvas scale
       const scaledDotSize = gridSize * scaleRatio;

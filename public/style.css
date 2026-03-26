@@ -28,10 +28,13 @@ body {
     background-size: cover;
 }
 
+#header {
+    display: flex;
+    padding: 24px;
+    justify-content: end;
+}
+
 #navbar {
-    position: fixed;
-    top: 20px;
-    right: 20px;
     z-index: 1000;
     display: flex;
     gap: 16px;
@@ -41,15 +44,21 @@ body {
 #navbar a {
     padding: 8px 16px;
     background: rgba(255, 255, 255, 0.9);
-    color: #333;
+    color: #484141;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
     pointer-events: auto;
+    height: fit-content;
 }
 
 #navbar a:hover {
-    background: rgba(255, 255, 255, 1);
-    color: #888;
+    background: #484141;
+    color: #f0f0f0
+}
+
+#navbar a:focus {
+    outline: none;
+    transform: translateY(2px);
 }
 
 #title {
@@ -60,16 +69,25 @@ body {
     color: rgb(0, 166, 211, 60);
     font-size: 100px;
     font-family: 'Home Sweet Home', sans-serif;
+    text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.5);
+
 }
 
 #prompt {
-    font-size: 65px;
-    font-family: 'Kingthings Xstitch', sans-serif;
+    font-size: 56px;
+    font-style: italic;
+    opacity: 0.8;
+    color: #484141;
 }
 
 #interact {
     padding: 16px;
-    opacity: 0.8;
+    /* opacity: 0.8; */
+    color: #484141;
+    font-family:
+        'Home Sweet Home',
+        sans-serif;
+
 }
 
 #instructions {

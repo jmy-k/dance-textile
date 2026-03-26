@@ -12,14 +12,12 @@
 body {
   background-image: url("./src/fabric.jpg");
   background-size: cover;
-  width: 100vw;
-  height: 100vh;
+
 
   display: flex;
   flex-direction: column;
   gap: 32px;
 
-  overflow: hidden;
   font-family: "Kingthings Xstitch", sans-serif;
 
 }
@@ -33,9 +31,14 @@ button {
   width: fit-content;
 }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
 #navbar {
   font-family: "Bona Nova SC", sans-serif;
-  position: fixed;
   top: 20px;
   right: 20px;
   z-index: 1000;
@@ -47,22 +50,29 @@ button {
 #navbar a {
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.9);
-  color: #333;
+  color: #484141;
   text-decoration: none;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
   pointer-events: auto;
+  height: fit-content;
 }
 
 #navbar a:hover {
-  background: rgba(255, 255, 255, 1);
-  color: #888;
+  background: #484141;
+  color: #f0f0f0
+}
+
+#navbar a:focus {
+  outline: none;
+  transform: translateY(2px);
 }
 
 #title {
   font-family: 'Home Sweet Home', sans-serif;
   font-size: 4rem;
   color: rgb(0, 166, 211, 60);
-  padding-left: 16px;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
+
 }
 
 #heatmapList {
@@ -73,8 +83,12 @@ button {
 }
 
 #heatmapList div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #f0f0f0;
   padding: 10px;
+  border: 2px dashed rgb(0, 166, 211, 60);
   border-radius: 6px;
   width: 40px;
   height: 40px;
@@ -86,8 +100,23 @@ button {
   text-decoration: none;
   color: #333;
   font-weight: bold;
+  font-size: 1.4em;
 }
 
 #heatmapList a:hover {
   color: #0077cc;
+}
+
+@media (max-width: 768px) {
+  #header {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 16px;
+  }
+
+  #title {
+    text-align: center;
+  }
 }

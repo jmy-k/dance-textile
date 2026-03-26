@@ -46,18 +46,12 @@ function draw() {
     pop();
   }
 
-  if (video && segmentation && recording) {
-    drawSegmentOverlay();
-  }
-
   if (startTime && millis() - startTime > timer && recording) {
     recording = false;
-    showVideo = false;
     console.log("Timer ended");
   }
 
   if (!recording && !hasSaved && video) {
-    video.remove();
     drawCircles();
     drawHeatmap();
     saveHeatmapToServer();

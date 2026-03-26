@@ -2,6 +2,7 @@
   font-family: "Kingthings Xstitch";
   src: url("./src/Kingthings Xstitch.ttf");
 }
+
 @font-face {
   font-family: "Home Sweet Home";
   src: url("./src/Home\ Sweet\ Home.otf");
@@ -11,22 +12,19 @@
 body {
   box-sizing: border-box;
   font-family: "Kingthings Xstitch", sans-serif;
-  
+
 }
 
 body {
   background-image: url("./src/fabric.jpg");
   background-size: cover;
-  width: 100vw;
-  height: 100vh;
-  
+
   display: flex;
   flex-direction: column;
-  align-items:space-between;
-  gap: 32px;
-  
-    padding:16px;
+  align-items: space-between;
+  /* gap: 32px; */
 
+  padding: 16px;
 }
 
 button {
@@ -35,12 +33,53 @@ button {
   color: black;
   border: none;
   cursor: pointer;
-  width:fit-content;
+  width: fit-content;
 }
 
-  #canvasContainer {
-      width: 100%;
-      max-width: calc(100vw - 40px);
-      display: flex;
-      justify-content: center;
-    }
+#mainRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#canvasContainer {
+  flex-shrink: 0;
+}
+
+#UIcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: right;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.option-group {
+  display: flex;
+  justify-content: right;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  #mainRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  #UIcontainer {
+    justify-content: flex-start;
+  }
+
+  .option-group {
+    justify-content: flex-start;
+  }
+}
